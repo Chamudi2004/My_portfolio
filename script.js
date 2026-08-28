@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   initMobileMenu();
+  initAnchorNavigation();
   initScrollSpy();
   initProjectFilters();
   initCopyEmail();
@@ -99,7 +100,49 @@ function initMobileMenu() {
 }
 
 // ------------------------------------------
-// 3. Scroll-Spy & Active Navbar Highlight
+// 3. Smooth Anchor Navigation
+// ------------------------------------------
+function initAnchorNavigation() {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (event) => {
+      const targetId = link.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      event.preventDefault();
+
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuIcon = document.getElementById('menuIcon');
+      if (mobileMenu) mobileMenu.classList.add('hidden');
+      if (menuIcon) menuIcon.classList.replace('fa-xmark', 'fa-bars');
+      target.classList.add('is-visible');
+
+      requestAnimationFrame(() => {
+        const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+        const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 6;
+
+        history.pushState(null, '', targetId);
+        window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+
+        setTimeout(() => {
+          const currentHeaderHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+          const clearance = currentHeaderHeight + 6;
+          const correction = target.getBoundingClientRect().top - clearance;
+          if (correction < 0) {
+            const root = document.documentElement;
+            const previousScrollBehavior = root.style.scrollBehavior;
+            root.style.scrollBehavior = 'auto';
+            window.scrollTo({ top: window.scrollY + correction, behavior: 'auto' });
+            root.style.scrollBehavior = previousScrollBehavior;
+          }
+        }, 1400);
+      });
+    });
+  });
+}
+
+// ------------------------------------------
+// 4. Scroll-Spy & Active Navbar Highlight
 // ------------------------------------------
 function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');

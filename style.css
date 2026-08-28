@@ -16,12 +16,20 @@
   scroll-behavior: smooth;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: var(--bg-dark);
   color: #e2e8f0;
   overflow-x: hidden;
   position: relative;
+}
+
+section[id] {
+  scroll-margin-top: 6rem;
 }
 
 /* Monospace font utility for code tags */
@@ -141,14 +149,24 @@ body {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
   }
+
   50% {
     box-shadow: 0 0 25px rgba(6, 182, 212, 0.8);
   }
@@ -201,4 +219,100 @@ body {
   height: 2px;
   background: linear-gradient(90deg, #38bdf8, #06b6d4);
   border-radius: 2px;
+}
+
+/* Keep long content usable on narrow screens. */
+main>section,
+main>section>div,
+main .grid>*,
+main .flex>* {
+  min-width: 0;
+}
+
+#typewriter {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  header nav {
+    min-height: 4.25rem;
+  }
+
+  header nav>a {
+    max-width: calc(100% - 4rem);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  #mobileMenu {
+    width: min(calc(100% - 2rem), 22rem);
+    margin: 0 auto 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+  }
+
+  main {
+    padding-top: 4.5rem;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  #hero {
+    min-height: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.25rem, 12vw, 3rem);
+  }
+
+  .hero-role {
+    flex-wrap: wrap;
+    gap: 0.15rem 0.35rem;
+    line-height: 1.35;
+  }
+
+  .hero-role .cursor-blink {
+    align-self: center;
+  }
+
+  #hero .hero-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #skills li {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    row-gap: 0.25rem;
+  }
+
+  #skills li>span:first-child {
+    min-width: 0;
+  }
+
+  #projects .project-card>div:last-child,
+  #projects .project-card>div>div:nth-child(2)>div:first-child {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  #contact .glass-card,
+  #contact .glass-card>div {
+    min-width: 0;
+  }
+
+  footer .flex {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #toast {
+    right: 1rem;
+    bottom: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
 }
