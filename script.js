@@ -299,7 +299,7 @@ function initContactForm() {
 
   if (!contactForm) return;
 
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (submitBtn) {
@@ -307,7 +307,17 @@ function initContactForm() {
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-sm"></i> <span>Sending...</span>';
     }
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) throw new Error('Message service rejected the request');
+
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-paper-plane text-sm"></i> <span>Send Message</span>';
@@ -315,7 +325,14 @@ function initContactForm() {
 
       showToast('Thank you! Your message has been sent successfully.', 'success');
       contactForm.reset();
-    }, 1000);
+    } catch (error) {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane text-sm"></i> <span>Send Message</span>';
+      }
+
+      showToast('Unable to send your message. Please email me directly.', 'error');
+    }
   });
 }
 
