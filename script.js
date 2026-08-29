@@ -22,8 +22,8 @@ function initTypewriter() {
   if (!typewriterElement) return;
 
   const roles = [
-    'Mobile (Flutter) Developer',
-    'Frontend Web Developer',
+    'Mobile (Flutter) App Developer',
+    'Frontend Developer',
     'Data Analysis Enthusiast',
     'Cross-Platform Problem Solver'
   ];
