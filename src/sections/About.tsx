@@ -31,7 +31,7 @@ export default function About() {
     const education = portfolio?.education?.[0];
 
     const name = profile?.full_name ?? "Chamudi Disanayaka";
-    const role = profile?.role ?? "Computing & Information Systems Undergraduate";
+
 
     const introduction =
         profile?.introduction ??
