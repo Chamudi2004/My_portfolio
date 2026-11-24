@@ -48,6 +48,7 @@ const skillLogoMap: Record<string, string> = {
     git: "git",
     github: "github",
     figma: "figma",
+    supabase: "supabase",
 };
 
 // Match database categories to the displayed filter categories
