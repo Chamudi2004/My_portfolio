@@ -12,7 +12,7 @@ export default function Footer() {
 
         <p className="flex items-center gap-1 text-sm text-slate-500">
           Made with <Heart size={14} className="fill-violet-400 text-violet-400" />
-          and curiosity by Chamudi Disanayaka
+          and curiosity by Chamudi
         </p>
 
         <a
