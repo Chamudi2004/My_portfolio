@@ -77,6 +77,7 @@ export default function Projects() {
             technologies: project.technologies ?? [],
             github: project.github_url,
             demo: project.demo_url,
+            image_url: project.image_url,
         };
     });
 
@@ -143,8 +144,8 @@ export default function Projects() {
                                     key={filter}
                                     onClick={() => setActiveFilter(filter)}
                                     className={`rounded-full border px-6 py-2.5 text-sm transition duration-300 ${activeFilter === filter
-                                        ? "border-violet-400 bg-violet-600 text-white shadow-lg shadow-violet-900/30"
-                                        : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-violet-400/50 hover:text-white"
+                                            ? "border-violet-400 bg-violet-600 text-white shadow-lg shadow-violet-900/30"
+                                            : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-violet-400/50 hover:text-white"
                                         }`}
                                 >
                                     {filter}
@@ -152,7 +153,7 @@ export default function Projects() {
                             ))}
                         </div>
 
-                        {/* Project planets */}
+                        {/* Project cards */}
                         <motion.div
                             layout
                             className="grid gap-7 sm:grid-cols-2"
@@ -189,24 +190,31 @@ export default function Projects() {
 
                                             <div className="relative">
 
-                                                {/* Project planet */}
-                                                <div className="mb-7 flex items-center justify-between">
-                                                    <div className="relative flex h-28 w-28 items-center justify-center">
-                                                        <div className="absolute inset-0 rotate-[-25deg] scale-x-125 rounded-full border border-white/20" />
-
-                                                        <div
-                                                            className={`flex h-24 w-24 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br ${project.gradient} shadow-[inset_-12px_-12px_30px_rgba(0,0,0,0.3),0_0_35px_rgba(139,92,246,0.15)] transition duration-500 group-hover:scale-110`}
-                                                        >
-                                                            <span className="text-2xl font-bold text-white">
-                                                                {project.initials}
-                                                            </span>
-                                                        </div>
-
-                                                        <div className="absolute right-0 top-4 h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_15px_#67e8f9]" />
+                                                {/* Project screenshot */}
+                                                <div className="relative mb-7 aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#172344] to-[#241b45]">
+                                                    {/* Fallback initials */}
+                                                    <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${project.gradient}`}>
+                                                        <span className="text-5xl font-bold text-white/80">
+                                                            {project.initials}
+                                                        </span>
                                                     </div>
 
-                                                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-violet-400/20 bg-violet-500/10 text-violet-300">
-                                                        <Icon size={21} />
+                                                    {/* Actual project image */}
+                                                    {project.image_url && (
+                                                        <img
+                                                            src={project.image_url}
+                                                            alt={`${project.name} project preview`}
+                                                            loading="lazy"
+                                                            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                                            onError={(event) => {
+                                                                event.currentTarget.style.display = "none";
+                                                            }}
+                                                        />
+                                                    )}
+
+                                                    {/* Project category icon */}
+                                                    <div className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-[#10172e]/80 text-violet-300 backdrop-blur-sm">
+                                                        <Icon size={20} />
                                                     </div>
                                                 </div>
 

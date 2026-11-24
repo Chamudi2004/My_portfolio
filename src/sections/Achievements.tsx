@@ -1,6 +1,11 @@
 
 import { motion } from "framer-motion";
-import { Trophy, Medal, Star, ArrowUpRight } from "lucide-react";
+import {
+    Trophy,
+    Medal,
+    Star,
+    ExternalLink,
+} from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
 
 export default function Achievements() {
@@ -79,57 +84,93 @@ export default function Achievements() {
                                             duration: 0.5,
                                             delay: index * 0.08,
                                         }}
-                                        className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#10172e]/80 p-7 transition duration-300 hover:-translate-y-2 hover:border-violet-400/40 hover:shadow-[0_10px_35px_rgba(139,92,246,0.12)]"
+                                        className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#10172e]/80 transition duration-300 hover:-translate-y-2 hover:border-violet-400/40 hover:shadow-[0_10px_35px_rgba(139,92,246,0.12)]"
                                     >
-                                        {/* Decorative background */}
-                                        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl transition group-hover:bg-cyan-400/10" />
-
-                                        {/* Icon */}
-                                        <div className="relative mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-violet-400/20 bg-violet-400/10 text-violet-300">
-                                            <Trophy size={27} />
+                                        {/* Achievement Image */}
+                                        <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden border-b border-white/10 bg-[#0b1124] p-3">
+                                            {item.image_url ? (
+                                                <img
+                                                    src={item.image_url}
+                                                    alt={`${item.title} achievement`}
+                                                    loading="lazy"
+                                                    className="h-full w-full rounded-lg object-contain transition duration-500 group-hover:scale-[1.03]"
+                                                    onError={(event) => {
+                                                        event.currentTarget.style.display = "none";
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="flex flex-col items-center gap-3 text-violet-300">
+                                                    <Trophy size={45} />
+                                                    <span className="text-xs text-slate-500">
+                                                        Achievement image unavailable
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
 
-                                        {/* Category */}
-                                        <div className="mb-4 flex items-center gap-2">
-                                            <Medal
-                                                size={15}
-                                                className="text-cyan-300"
-                                            />
-                                            <span className="text-xs uppercase tracking-widest text-cyan-300">
-                                                Recognition
-                                            </span>
-                                        </div>
+                                        {/* Card Content */}
+                                        <div className="relative flex flex-1 flex-col p-7">
 
-                                        {/* Achievement title */}
-                                        <h3 className="text-xl font-semibold leading-snug text-white transition group-hover:text-violet-300">
-                                            {item.title}
-                                        </h3>
+                                            {/* Decorative background */}
+                                            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl transition group-hover:bg-cyan-400/10" />
 
-                                        {/* Organization */}
-                                        <p className="mt-3 text-sm font-medium text-cyan-200">
-                                            {item.organization}
-                                        </p>
+                                            {/* Icon */}
+                                            <div className="relative mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-violet-400/20 bg-violet-400/10 text-violet-300">
+                                                <Trophy size={27} />
+                                            </div>
 
-                                        {/* Description */}
-                                        {item.description && (
-                                            <p className="mt-4 text-sm leading-7 text-slate-400">
-                                                {item.description}
-                                            </p>
-                                        )}
-
-                                        {/* Date */}
-                                        {item.achievement_date && (
-                                            <div className="mt-6 border-t border-white/10 pt-4">
-                                                <span className="text-xs text-slate-500">
-                                                    {formatDate(item.achievement_date)}
+                                            {/* Category */}
+                                            <div className="mb-4 flex items-center gap-2">
+                                                <Medal
+                                                    size={15}
+                                                    className="text-cyan-300"
+                                                />
+                                                <span className="text-xs uppercase tracking-widest text-cyan-300">
+                                                    Recognition
                                                 </span>
                                             </div>
-                                        )}
 
-                                        <ArrowUpRight
-                                            size={18}
-                                            className="absolute bottom-7 right-7 text-slate-600 transition group-hover:text-violet-300"
-                                        />
+                                            {/* Achievement title */}
+                                            <h3 className="text-xl font-semibold leading-snug text-white transition group-hover:text-violet-300">
+                                                {item.title}
+                                            </h3>
+
+                                            {/* Organization */}
+                                            <p className="mt-3 text-sm font-medium text-cyan-200">
+                                                {item.organization}
+                                            </p>
+
+                                            {/* Description */}
+                                            {item.description && (
+                                                <p className="mt-4 text-sm leading-7 text-slate-400">
+                                                    {item.description}
+                                                </p>
+                                            )}
+
+                                            {/* Date */}
+                                            {item.achievement_date && (
+                                                <div className="mt-6 border-t border-white/10 pt-4">
+                                                    <span className="text-xs text-slate-500">
+                                                        {formatDate(item.achievement_date)}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {/* Proof Link */}
+                                            {item.credential_url && (
+                                                <div className="mt-auto pt-6">
+                                                    <a
+                                                        href={item.credential_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-2 rounded-lg border border-violet-400/30 bg-violet-400/10 px-4 py-2.5 text-sm font-medium text-violet-300 transition hover:border-violet-300 hover:bg-violet-400/20"
+                                                    >
+                                                        View Proof
+                                                        <ExternalLink size={15} />
+                                                    </a>
+                                                </div>
+                                            )}
+                                        </div>
                                     </motion.div>
                                 ))}
                             </div>
